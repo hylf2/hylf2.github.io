@@ -1,13 +1,17 @@
 ---
-layout: post
-title: 关于《荒野永夜》
+layout: page
+title: 关于
+permalink: /about/
 date: 2026-07-13
-categories: [about]
 ---
 
-## 项目简介
+## 关于本站
 
-**荒野永夜**（Wild Eternal Night）是一款硬核野外生存 · 开放世界沙盒 · 动作冒险 · Roguelike 游戏。
+这是 **Deep Dark** 的个人技术博客，记录游戏设计、技术探索与创意工坊的点滴。
+
+当前主要项目：
+
+### 🌲 荒野永夜 (Wild Eternal Night)
 
 - **目标平台**：PC (Windows) / 微信小程序
 - **视角**：2.5D 等轴测（Isometric）

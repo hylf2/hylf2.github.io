@@ -184,17 +184,19 @@
 </head>
 <body>
   <header class="site-header">
-    <h1><a href="{{ '/' | relative_url }}">🌲 荒野永夜</a></h1>
+    <h1><a href="{{ '/' | relative_url }}">🌌 Deep Dark</a></h1>
     <nav class="site-nav">
       <a href="{{ '/' | relative_url }}">首页</a>
-      <a href="{{ '/about' | relative_url }}">关于</a>
+      <a href="{{ '/welcome/' | relative_url }}">测试欢迎</a>
+      <a href="{{ '/wild-eternal-night/' | relative_url }}">荒野永夜</a>
+      <a href="{{ '/about/' | relative_url }}">关于</a>
     </nav>
   </header>
   <main class="container">
     {{ content }}
   </main>
   <footer class="site-footer">
-    《荒野永夜》游戏设计文档 — v0.1-prototype | 基于 MDA 框架设计
+    Deep Dark © {{ site.time | date: '%Y' }} | 由 <a href="https://github.com/hylf2">hylf2</a> 驱动
   </footer>
 </body>
 </html>

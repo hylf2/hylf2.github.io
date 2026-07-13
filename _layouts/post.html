@@ -1,31 +1,150 @@
 ---
 layout: default
 ---
-<article>
-  <div class="post-header">
-    <h1>{{ page.title }}</h1>
-    <div class="post-meta">
-      <span>{{ page.date | date: "%Y-%m-%d" }}</span>
-      {% if page.categories %}
-        {% for cat in page.categories %}
-          <span class="tag">{{ cat }}</span>
-        {% endfor %}
-      {% endif %}
+<div class="post-wrapper">
+  <article class="post-main">
+    <div class="post-header">
+      <h1>{{ page.title }}</h1>
+      <div class="post-meta">
+        <span>{{ page.date | date: "%Y-%m-%d" }}</span>
+        {% if page.categories %}
+          {% for cat in page.categories %}
+            <span class="tag">{{ cat }}</span>
+          {% endfor %}
+        {% endif %}
+      </div>
     </div>
-  </div>
-  <div class="post-content">
-    {{ content }}
-  </div>
-  <nav class="post-nav">
-    {% if page.previous %}
-      <a href="{{ page.previous.url | relative_url }}">&larr; {{ page.previous.title }}</a>
-    {% else %}
-      <span></span>
-    {% endif %}
-    {% if page.next %}
-      <a href="{{ page.next.url | relative_url }}">{{ page.next.title }} &rarr;</a>
-    {% else %}
-      <span></span>
-    {% endif %}
-  </nav>
-</article>
+    <div class="post-content">
+      {{ content }}
+    </div>
+    <nav class="post-nav">
+      {% if page.previous %}
+        <a href="{{ page.previous.url | relative_url }}">&larr; {{ page.previous.title }}</a>
+      {% else %}
+        <span></span>
+      {% endif %}
+      {% if page.next %}
+        <a href="{{ page.next.url | relative_url }}">{{ page.next.title }} &rarr;</a>
+      {% else %}
+        <span></span>
+      {% endif %}
+    </nav>
+  </article>
+
+  <aside class="post-sidebar" id="toc-sidebar">
+    <div class="toc-sticky">
+      <h3 class="toc-title">📑 目录</h3>
+      <nav id="toc-nav"><ul class="toc-list"></ul></nav>
+    </div>
+  </aside>
+</div>
+
+<script>
+(function(){
+  const content = document.querySelector('.post-content');
+  const tocList = document.querySelector('.toc-list');
+  if (!content || !tocList) return;
+  const headings = content.querySelectorAll('h2, h3');
+  if (headings.length === 0) {
+    document.getElementById('toc-sidebar').style.display = 'none';
+    return;
+  }
+  const stack = [{ul: tocList, level: 1}];
+  headings.forEach(h => {
+    const level = parseInt(h.tagName.charAt(1));
+    const text = h.textContent;
+    const id = h.id || text.replace(/\s+/g, '-').toLowerCase();
+    if (!h.id) h.id = id;
+    while (stack.length > 0 && stack[stack.length-1].level >= level) stack.pop();
+    if (stack.length === 0) stack.push({ul: tocList, level: 1});
+    let parent = stack[stack.length-1].ul;
+    if (level > stack[stack.length-1].level) {
+      const subUl = document.createElement('ul');
+      subUl.className = 'toc-sublist';
+      const lastLi = parent.lastElementChild;
+      if (lastLi) lastLi.appendChild(subUl);
+      else parent.appendChild(subUl);
+      parent = subUl;
+      stack.push({ul: parent, level: level});
+    }
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#' + id;
+    a.textContent = text;
+    a.className = 'toc-link';
+    li.appendChild(a);
+    parent.appendChild(li);
+  });
+})();
+</script>
+
+<style>
+  .post-wrapper {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+  }
+  .post-main {
+    flex: 1;
+    min-width: 0;
+  }
+  .post-sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 24px;
+  }
+  .toc-sticky {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 16px;
+  }
+  .toc-title {
+    color: var(--gold);
+    font-size: 1em;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .toc-list, .toc-sublist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .toc-list li, .toc-sublist li {
+    margin-bottom: 4px;
+  }
+  .toc-list > li > a {
+    color: var(--text-dim);
+    font-size: 0.85em;
+    font-weight: 600;
+    display: block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: color 0.2s, background 0.2s;
+  }
+  .toc-sublist > li > a {
+    color: var(--text-dim);
+    font-size: 0.8em;
+    display: block;
+    padding: 3px 8px 3px 18px;
+    border-radius: 4px;
+    transition: color 0.2s, background 0.2s;
+    opacity: 0.8;
+  }
+  .toc-link:hover {
+    color: var(--accent);
+    background: rgba(233,69,96,0.08);
+  }
+  @media (max-width: 800px) {
+    .post-wrapper { flex-direction: column; }
+    .post-sidebar {
+      width: 100%;
+      position: static;
+      order: -1;
+    }
+    .toc-sticky { padding: 14px 12px; }
+    .toc-title { margin-bottom: 8px; }
+  }
+</style>
