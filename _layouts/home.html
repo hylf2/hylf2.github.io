@@ -19,21 +19,22 @@ layout: default
 
 <h2 style="color:#ffd700;font-size:1.5em;margin:30px 0 16px;padding-left:14px;border-left:4px solid #e94560;">📑 设计博文</h2>
 
-{% assign posts_by_category = site.posts | group_by_exp: "post, post.categories[0]" %}
-{% for group in posts_by_category %}
-<h3 style="color:#4ecca3;margin:24px 0 12px;font-size:1.15em;">
-  {% case group.name %}
-    {% when 'core-mechanics' %}⚔️ 核心机制与规则
-    {% when 'systems-dynamics' %}🔄 系统与交互动态
-    {% when 'narrative' %}📖 叙事与世界观
-    {% when 'aesthetics' %}🎨 美学与感官体验
-    {% when 'ui-ux' %}🖥️ 界面与用户体验
-    {% when 'technical' %}🔧 技术与平台
-    {% else %}{{ group.name }}
+{% assign cat_label = '' %}
+{% for cat in site.categories %}
+  {% assign cat_name = cat[0] %}
+  {% assign cat_posts = cat[1] %}
+  {% case cat_name %}
+    {% when 'core-mechanics' %}{% assign cat_label = '⚔️ 核心机制与规则' %}
+    {% when 'systems-dynamics' %}{% assign cat_label = '🔄 系统与交互动态' %}
+    {% when 'narrative' %}{% assign cat_label = '📖 叙事与世界观' %}
+    {% when 'aesthetics' %}{% assign cat_label = '🎨 美学与感官体验' %}
+    {% when 'ui-ux' %}{% assign cat_label = '🖥️ 界面与用户体验' %}
+    {% when 'technical' %}{% assign cat_label = '🔧 技术与平台' %}
+    {% else %}{% assign cat_label = cat_name %}
   {% endcase %}
-</h3>
+<h3 style="color:#4ecca3;margin:24px 0 12px;font-size:1.15em;">{{ cat_label }}</h3>
 <ul style="list-style:none;margin-bottom:20px;">
-  {% for post in group.items %}
+  {% for post in cat_posts %}
   <li style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
     <a href="{{ post.url | relative_url }}" style="color:#e94560;font-size:0.95em;">{{ post.title }}</a>
     <span style="color:#8892b0;font-size:0.8em;margin-left:8px;">{{ post.date | date: "%Y-%m-%d" }}</span>
