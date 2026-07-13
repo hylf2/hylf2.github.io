@@ -1,0 +1,43 @@
+---
+layout: default
+---
+<div style="background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);padding:40px;border-radius:12px;margin-bottom:36px;text-align:center;border:1px solid rgba(233,69,96,0.3);">
+  <h1 style="font-size:2.4em;background:linear-gradient(90deg,#e94560,#ffd700);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;">🌲 荒野永夜</h1>
+  <p style="color:#8892b0;font-size:1.05em;">Wild Eternal Night — 游戏设计文档</p>
+  <div style="margin-top:14px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap;">
+    <span style="background:rgba(233,69,96,0.2);border:1px solid #e94560;padding:4px 14px;border-radius:20px;font-size:0.85em;color:#e94560;">硬核生存</span>
+    <span style="background:rgba(233,69,96,0.2);border:1px solid #e94560;padding:4px 14px;border-radius:20px;font-size:0.85em;color:#e94560;">开放世界沙盒</span>
+    <span style="background:rgba(233,69,96,0.2);border:1px solid #e94560;padding:4px 14px;border-radius:20px;font-size:0.85em;color:#e94560;">动作冒险</span>
+    <span style="background:rgba(233,69,96,0.2);border:1px solid #e94560;padding:4px 14px;border-radius:20px;font-size:0.85em;color:#e94560;">Roguelike</span>
+  </div>
+</div>
+
+<div style="background:#16213e;border:1px solid rgba(233,69,96,0.3);border-radius:12px;padding:24px;margin-bottom:30px;">
+  <h2 style="color:#4ecca3;margin-bottom:10px;">📋 文档总览</h2>
+  <p style="color:#8892b0;">本文档体系基于 <strong style="color:#eaeaea;">MDA（Mechanics-Dynamics-Aesthetics）框架</strong> 扩展，结合游戏设计行业标准六大支柱，为《荒野永夜》提供从核心机制到技术实现的完整设计蓝图。</p>
+</div>
+
+<h2 style="color:#ffd700;font-size:1.5em;margin:30px 0 16px;padding-left:14px;border-left:4px solid #e94560;">📑 设计博文</h2>
+
+{% assign posts_by_category = site.posts | group_by_exp: "post, post.categories[0]" %}
+{% for group in posts_by_category %}
+<h3 style="color:#4ecca3;margin:24px 0 12px;font-size:1.15em;">
+  {% case group.name %}
+    {% when 'core-mechanics' %}⚔️ 核心机制与规则
+    {% when 'systems-dynamics' %}🔄 系统与交互动态
+    {% when 'narrative' %}📖 叙事与世界观
+    {% when 'aesthetics' %}🎨 美学与感官体验
+    {% when 'ui-ux' %}🖥️ 界面与用户体验
+    {% when 'technical' %}🔧 技术与平台
+    {% else %}{{ group.name }}
+  {% endcase %}
+</h3>
+<ul style="list-style:none;margin-bottom:20px;">
+  {% for post in group.items %}
+  <li style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+    <a href="{{ post.url | relative_url }}" style="color:#e94560;font-size:0.95em;">{{ post.title }}</a>
+    <span style="color:#8892b0;font-size:0.8em;margin-left:8px;">{{ post.date | date: "%Y-%m-%d" }}</span>
+  </li>
+  {% endfor %}
+</ul>
+{% endfor %}

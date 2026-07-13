@@ -1,0 +1,24 @@
+title: "荒野永夜 — 游戏设计文档"
+description: "《荒野永夜》(Wild Eternal Night) 完整游戏设计文档体系 — 基于 MDA 框架的六大支柱设计蓝图"
+url: "https://hylf2.github.io"
+baseurl: ""
+markdown: kramdown
+permalink: /:year/:month/:day/:title/
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - vendor
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+author: "荒野永夜设计团队"
+lang: zh-CN
